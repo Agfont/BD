@@ -1,42 +1,97 @@
 {
   "comment": "divisoes",
-  "divisao_id": int,
-  "codigo_grupo": int,
-  "num_baixas_d": int,
-  "barcos": int,
-  "tanques": int,
-  "avioes": int,
-  "homens": int
+  "method" : "POST",
+  "divisao_id": 0,
+  "codigo_grupo": 0,
+  "num_baixas_d": 0,
+  "barcos": 0,
+  "tanques": 0,
+  "avioes": 0,
+  "homens": 0
 }
 
 {
-  "comment: "grupos_armados" ,
-  "id": int,
-  "nome_grupo": string,
-  "num_baixas": int
+  "comment": "grupos_armados",
+  "method" : "POST",
+  "id": 0,
+  "nome_grupo": "nome",
+  "num_baixas": 0
 }
 
 {
   "comment": "conflitos",
-  "codigo": int PRIMARY KEY,
-  "nome": varchar,
-  "tipo": varchar,
-  "num_feridos": int,
-  "num_mortos": int
+  "method" : "POST",
+  "codigo": 0,
+  "nome": "nome",
+  "tipo": "tipo",
+  "num_feridos": 0,
+  "num_mortos": 0
 }
 
 {
   "comment": "lideres_politicos",
-  "id": int,
-  "codigo_grupo": int,
-  "nome_l": string,
-  "apoios": string
+  "method" : "POST",
+  "id": 0,
+  "codigo_grupo": 0,
+  "nome_l": "nome_l",
+  "apoios": "apoios"
  }
  
  {
   "comment": "chefes_militares",
-  "codigo_chef:" int,
-  "faixa": string, 
-  "n_div": int,
-  "codigo_grupo": int
+  "method" : "POST",
+  "codigo_chef": 0,
+  "faixa": "faixa", 
+  "n_div": 0,
+  "codigo_grupo": 0
+}
+
+{
+  "comment": "chefes_lider",
+  "method" : "POST",
+  "codigo_chef": 0,
+  "codigo_lider": 0
+}
+
+{
+  "comment": "ConfRelig",
+  "method" : "GET",
+  "conflito_id": 0,
+  "religiao": "religiao"
+}
+{
+  "comment": "ConfEcon",
+  "method" : "GET",
+  "conflito_id": 0,
+  "mat_prima": "mat_prima"
+}
+{
+  "comment": "ConfRegiao",
+  "method" : "GET",
+  "conflito_id": 0,
+  "religiao": "regiao"
+}
+{
+  "comment": "ConfPais",
+  "method" : "GET",
+  "conflito_id": 0,
+  "religiao": "pais"
+}
+{
+  "comment": "ConfEtnia",
+  "method" : "GET",
+  "conflito_id": 0,
+  "religiao": "etnia"
+}
+
+{
+  "comment": "traficantes",
+  "method" : "GET",
+  "conflito_id": 0,
+  "arma": [
+  	{
+  	"a" : "Barret M82",
+  	"b" : "M200 intervention"
+  	}
+ ]
 }
