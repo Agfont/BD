@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  war_db:
+    container_name: war_db
+    image: postgres:12.3
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - war_db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  war_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: war_app
+    command: python ./src/manage.py runserver 0.0.0.0:8090
+    # environment:
+    #   ENV_VAR: ENV_VALUE
+    env_file:
+      - .env
+    volumes:
+      - .:/app/
+    ports:
+      - "8090:8090"
+    depends_on:
+      - war_db
+
+
+volumes:
+  war_db_data:
