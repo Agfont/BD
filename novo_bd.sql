@@ -3,9 +3,7 @@ CREATE TABLE "chefes_militares" (
   "faixa" varchar, 
   "n_div" int,
   "codigo_grupo" int,
-  "codigo_lider" int,
   FOREIGN KEY ("codigo_grupo") REFERENCES "grupos_armados" ("id"),
-  FOREIGN KEY ("codigo_lider") REFERENCES "lideres_politicos" ("id")
 );
 CREATE TABLE "lideres_politicos" (
   "id" int,
@@ -142,11 +140,11 @@ CREATE TABLE "ConfEtnia" (
   FOREIGN KEY ("conflito_id") REFERENCES "conflitos" ("codigo")
 );
 
-/*
 CREATE TABLE "chefes_lider" (
   "codigo_chef" int,
   "codigo_lider" int
 );
+/*
 CREATE RULE chefMin1Lider AS 
      ON DELETE TO chefes_lider ( (SELECT COUNT(DINSTINCT codigo_lider) FROM chefes_lider)>= 1 );
      DO INSTEAD NOTHING;
