@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.gentevn('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +85,7 @@ DATABASES = {
 		'NAME': os.getenv('DB_NAME', 'postgres'),
 		'USER': os.getenv('DB_USER', 'postgres'),
 		'PASSWORD': os.getenv('DB_PASS', 'postgres'),
-		'HOST': 'localhost',
+		'HOST': 'war_db',
 		'PORT': '5432',
 	}
 }
