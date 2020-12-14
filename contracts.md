@@ -16,7 +16,7 @@ payload de envio
   "boats": int,
   "tanks": int,
   "planes": int,
-  "men": int 
+  "mens": int 
 }
 ```
 retorno é o mesmo, com um campo id

@@ -1,10 +1,14 @@
+-- MilitaryChief
 CREATE TABLE "chefes_militares" (
   "codigo_chef" int PRIMARY KEY,
   "faixa" varchar, 
   "n_div" int,
+  "id_lider" int,
   "codigo_grupo" int,
   FOREIGN KEY ("codigo_grupo") REFERENCES "grupos_armados" ("id"),
+  FOREIGN KEY ("id_lider") REFERENCES "lideres_politicoss" ("id")
 );
+-- PoliticalLeader
 CREATE TABLE "lideres_politicos" (
   "id" int,
   "codigo_grupo" int,
@@ -13,11 +17,14 @@ CREATE TABLE "lideres_politicos" (
   PRIMARY KEY("id","codigo_grupo"), 
   FOREIGN KEY ("codigo_grupo") REFERENCES "grupos_armados" ("id")
 );
+
+-- ArmedGroup
 CREATE TABLE "grupos_armados" (
   "id" int PRIMARY KEY,
   "nome_grupo" varchar,
   "num_baixas" int
 );
+-- Division
 CREATE TABLE "divisoes" (
   "divisao_id" int,
   "codigo_grupo" int,
@@ -29,6 +36,7 @@ CREATE TABLE "divisoes" (
   PRIMARY KEY("divisao_id", "codigo_grupo"),
   FOREIGN KEY ("codigo_grupo") REFERENCES "grupos_armados" ("id")
 );
+-- Organization
 CREATE TABLE "organizacoes_m" (
   "codigo_org" int PRIMARY KEY,
   "nome_org" varchar,
@@ -37,6 +45,7 @@ CREATE TABLE "organizacoes_m" (
   "tipo" char,
   "org_lider" char
 );
+-- Conflict
 CREATE TABLE "conflitos" (
   "codigo" int PRIMARY KEY,
   "nome" varchar,
@@ -44,14 +53,19 @@ CREATE TABLE "conflitos" (
   "num_feridos" int,
   "num_mortos" int
 );
+
+-- Weapon
 CREATE TABLE "tipo_armas" (
   "nome_arma" varchar PRIMARY KEY,
   "indicador" int
 );
+-- Dealer
 CREATE TABLE "traficantes" (
   "id_traficante" int PRIMARY KEY,
   "nome_traficante" varchar
 );
+
+-- SupplyWeaponArmedGroupDealer
 CREATE TABLE "fornece" (
   "codigo_grupo" int,
   "nome_arma" varchar,
@@ -62,6 +76,8 @@ CREATE TABLE "fornece" (
   FOREIGN KEY ("nome_arma") REFERENCES "tipos_armas" ("nome_arma"),
   FOREIGN KEY ("id_traficante") REFERENCES "traficantes" ("id_traficante")
 );
+
+-- DialogPoliticalLeaderArmedGroupOrganization
 CREATE TABLE "dialoga" (
   "codigo_lider" int,
   "codigo_grupo" int,
@@ -71,6 +87,7 @@ CREATE TABLE "dialoga" (
   FOREIGN KEY ("codigo_grupo") REFERENCES "grupos_armados" ("id"),
   FOREIGN KEY ("organizacoes_id") REFERENCES "organizacoes_m" ("codigo_org")
 );
+-- EnterPart
 CREATE TABLE "EntPart" (
   "grupo_armado_id" int,
   "conflito_id" int,
@@ -79,6 +96,7 @@ CREATE TABLE "EntPart" (
   FOREIGN KEY ("grupo_armado_id") REFERENCES "grupos_armados" ("id"),
   FOREIGN KEY ("conflito_id") REFERENCES "conflitos" ("codigo")
 );
+-- ExitPart
 CREATE TABLE "SaidaPart" (
   "grupo_armado_id" int,
   "conflito_id" int,
@@ -87,6 +105,7 @@ CREATE TABLE "SaidaPart" (
   FOREIGN KEY ("grupo_armado_id") REFERENCES "grupos_armados" ("id"),
   FOREIGN KEY ("conflito_id") REFERENCES "conflitos" ("codigo")
 );
+-- EnterMed
 CREATE TABLE "EntraMed" (
   "codigo_org" int,
   "conflito_id" int,
@@ -95,6 +114,7 @@ CREATE TABLE "EntraMed" (
   FOREIGN KEY ("codigo_org") REFERENCES "organizacoes_m" ("codigo_org"),
   FOREIGN KEY ("conflito_id") REFERENCES "conflitos" ("codigo")
 );
+-- ExitMed
 CREATE TABLE "SaidaMed" (
   "codigo_org" int,
   "conflito_id" int,
@@ -103,6 +123,7 @@ CREATE TABLE "SaidaMed" (
   FOREIGN KEY ("codigo_org") REFERENCES "organizacoes_m" ("codigo_org"),
   FOREIGN KEY ("conflito_id") REFERENCES "conflitos" ("codigo")
 );
+-- CanSupply
 CREATE TABLE "PodeFornecer" (
   "nome_arma" varchar,
   "id_traficante" int,
