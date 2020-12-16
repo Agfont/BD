@@ -18,7 +18,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: war_app
-    command: python ./src/manage.py runserver 0.0.0.0:8090
+    
+    command: "/app/src/manage.py runserver 0.0.0.0:8090"
     # environment:
     #   ENV_VAR: ENV_VALUE
     env_file:
