@@ -10,5 +10,5 @@ urlpatterns = [
     path('iv/', views.top5_mediations_organizations),
     path('v/', views.top5_largest_armed_groups),
     path('vi/', views.countries_by_religious_conflicts),
-    path('addChief', views.addMilitaryChief)
+    path('create-db', views.create_db),
 ]

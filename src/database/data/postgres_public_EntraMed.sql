@@ -1,0 +1,10 @@
+INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (1, 1, '2020-12-17 19:04:17.000000');
+INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (1, 1, '2020-12-17 19:04:42.000000');
+INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (2, 2, '2020-12-17 19:04:43.000000');
+INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (2, 3, '2020-12-17 19:04:43.000000');
+INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (3, 5, '2020-12-17 19:04:44.000000');
+INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (1, 6, '2020-12-17 19:04:44.000000');
+INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (2, 7, '2020-12-17 19:04:45.000000');
+INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (3, 8, '2020-12-17 19:04:45.000000');
+INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (4, 9, '2020-12-17 19:04:46.000000');
+INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (1, 4, '2020-12-17 19:04:44.000000');
