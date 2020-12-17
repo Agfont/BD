@@ -5,174 +5,166 @@ CHARFIELD_LENGTH = 100
 
 class MilitaryChief(models.Model):
     class Meta:
-        db_table = 'military_chiefs'
+        db_table = 'chefes_militares'
 
-    # id = primary_key    
-    rank = models.CharField(max_length=CHARFIELD_LENGTH)
-    division_number = models.IntegerField()
-    armed_group = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE, null=False)
-    leader = models.ForeignKey('PoliticalLeader', on_delete=models.CASCADE)
+    codigo_chef = models.IntegerField(primary_key=True)
+    faixa = models.CharField(max_length=CHARFIELD_LENGTH)
+    n_div = models.IntegerField()
+    codigo_grupo = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE, null=False)
+    id_lider = models.ForeignKey('PoliticalLeader', on_delete=models.CASCADE)
 
 class PoliticalLeader(models.Model):
     class Meta:
-        db_table = 'politcal_leaders'
-        unique_together = (("id", "armed_group"),)
+        db_table = 'lideres_politicos'
      
-    name = models.CharField(max_length=CHARFIELD_LENGTH)
-    armed_group = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
-    support = models.CharField(max_length=CHARFIELD_LENGTH)
+    nome_l = models.CharField(max_length=CHARFIELD_LENGTH)
+    codigo_grupo = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
+    apoios = models.CharField(max_length=CHARFIELD_LENGTH)
 
 class ArmedGroup(models.Model):
     class Meta:
-        db_table = 'armed_groups'
+        db_table = 'grupos_armados'
 
-    code_id = models.IntegerField(primary_key=True, )
-    name = models.CharField(max_length=CHARFIELD_LENGTH, null=False, blank=False)
-    deads = models.IntegerField()
+    nome_grupo = models.CharField(max_length=CHARFIELD_LENGTH, null=False, blank=False)
+    num_baixas = models.IntegerField()
 
 class Division(models.Model):
     class Meta:
-        db_table = 'divisions'
-        unique_together = (("id", "armed_group"),)
+        db_table = 'divisoes'
         
-    armed_group = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
-    deads = models.IntegerField()
-    boats = models.IntegerField()
-    tanks = models.IntegerField()
-    planes = models.IntegerField()
-    mens = models.IntegerField()
+    divisao_id = models.IntegerField(primary_key=True)
+    codigo_grupo = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
+    num_baixas_d = models.IntegerField()
+    barcos = models.IntegerField()
+    tanques = models.IntegerField()
+    avioes = models.IntegerField()
+    homens = models.IntegerField()
 
 class Organization(models.Model):
     class Meta:
         db_table = 'organizations'
         
-    name = models.CharField(max_length=CHARFIELD_LENGTH)
-    sort = models.CharField(max_length=CHARFIELD_LENGTH)
-    amount_people = models.IntegerField()
-    sort_of_help = models.CharField(max_length=CHARFIELD_LENGTH)
-    leader = models.CharField(max_length=CHARFIELD_LENGTH)
+    nome_org = models.CharField(max_length=CHARFIELD_LENGTH)
+    tipo = models.CharField(max_length=CHARFIELD_LENGTH)
+    num_pessoas = models.IntegerField()
+    tipo_ajuda = models.CharField(max_length=CHARFIELD_LENGTH)
+    org_lider = models.CharField(max_length=CHARFIELD_LENGTH)
 
 class Conflict(models.Model):
     class Meta:
-        db_table = 'conflicts'
+        db_table = 'conflitos'
 
-    #id = amount_people = models.IntegerField()
-    name = models.CharField(max_length=CHARFIELD_LENGTH)
-    sort = models.CharField(max_length=CHARFIELD_LENGTH)
-    wounded = models.IntegerField()
-    deads = models.IntegerField()
+    codigo = models.IntegerField(primary_key=True)
+    nome = models.CharField(max_length=CHARFIELD_LENGTH)
+    tipo = models.CharField(max_length=CHARFIELD_LENGTH)
+    num_feridos = models.IntegerField()
+    num_mortos = models.IntegerField()
 
 
 class Weapon(models.Model):
     class Meta:
-        db_table = 'weapons'
+        db_table = 'tipo_armas'
 
-    name = models.CharField(max_length=CHARFIELD_LENGTH, primary_key=True)
-    indicator = models.IntegerField()
+    nome_arma = models.CharField(max_length=CHARFIELD_LENGTH, primary_key=True)
+    indicador = models.IntegerField()
 
 class Dealer(models.Model):
     class Meta: 
-        db_table = 'dealers'
+        db_table = 'traficantes'
 
-    name = models.CharField(max_length=CHARFIELD_LENGTH)
+    id_traficante = models.IntegerField(primary_key=True)
+    nome_traficante = models.CharField(max_length=CHARFIELD_LENGTH)
 
 class SupplyWeaponArmedGroupDealer(models.Model):
     class Meta:
-        db_table = 'supply_weapons_armed_groups_dealers'
+        db_table = 'fornece'
 
-    armed_group = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
-    weapon = models.ForeignKey('Weapon', on_delete=models.CASCADE)
-    dealer = models.ForeignKey('Dealer', on_delete=models.CASCADE)
-    weapons_amount = models.IntegerField()
+    codigo_grupo = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
+    nome_arma = models.ForeignKey('Weapon', on_delete=models.CASCADE)
+    id_traficante = models.ForeignKey('Dealer', on_delete=models.CASCADE)
+    num_armas = models.IntegerField()
 
 class DialogPoliticalLeaderArmedGroupOrganization(models.Model):
     class Meta:
-        db_table = 'dialog_political_leaders_armed_groups_organizations'
-        unique_together = (('political_leader', 'armed_group', 'organization'))
+        db_table = 'dialoga'
 
-    political_leader = models.ForeignKey('PoliticalLeader', on_delete=models.CASCADE)
-    armed_group = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
-    organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
+    codigo_lider = models.ForeignKey('PoliticalLeader', on_delete=models.CASCADE)
+    codigo_grupo = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
+    organizacoes_id = models.ForeignKey('Organization', on_delete=models.CASCADE)
 
 class EnterPart(models.Model):
     class Meta:
-        db_table = 'enter_part'
-        unique_together = (('armed_group', 'conflict', 'enter_date'))
+        db_table = 'EntPart'
 
-    armed_group = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
-    conflict = models.ForeignKey('Conflict', on_delete=models.CASCADE)
-    enter_date = models.DateField(auto_now=False)
+    grupo_armado_id = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
+    conflito_id = models.ForeignKey('Conflict', on_delete=models.CASCADE)
+    de_grupo = models.DateField(auto_now=False)
 
 class ExitPart(models.Model):
     class Meta:
-        db_table = 'exit_part'
-        unique_together = (('armed_group', 'conflict', 'exit_date'))
+        db_table = 'SaidaPart'
 
-    armed_group = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
-    conflict = models.ForeignKey('Conflict', on_delete=models.CASCADE)
-    exit_date = models.DateField(auto_now=False)
+    grupo_armado_id = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
+    conflito_id = models.ForeignKey('Conflict', on_delete=models.CASCADE)
+    ds_grupo = models.DateField(auto_now=False)
     
 class EnterMed(models.Model):
     class Meta:
-        db_table = 'enter_med'
-        unique_together = (('organization', 'conflict', 'enter_date'))
+        db_table = 'EntraMed'
 
-    organization = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
-    conflict = models.ForeignKey('Conflict', on_delete=models.CASCADE)
-    enter_date = models.DateField(auto_now=False)
+    codigo_org = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
+    conflito_id = models.ForeignKey('Conflict', on_delete=models.CASCADE)
+    de_media = models.DateField(auto_now=False)
 
 class ExitMed(models.Model):
     class Meta:
-        db_table = 'exit_med'
-        unique_together = (('organization', 'conflict', 'exit_date'))
+        db_table = 'SaidaMed'
 
-    organization = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
-    conflict = models.ForeignKey('Conflict', on_delete=models.CASCADE)
-    exit_date = models.DateField(auto_now=False)
+    codigo_org = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
+    conflito_id = models.ForeignKey('Conflict', on_delete=models.CASCADE)
+    ds_media = models.DateField(auto_now=False)
 
 class CanSupply(models.Model):
     class Meta:
-        db_table = 'can_supply'
-        unique_together = (('weapon', 'dealer'))
+        db_table = 'PodeFornecer'
 
-    weapon = models.ForeignKey('Weapon', on_delete=models.CASCADE)
-    dealer = models.ForeignKey('Dealer', on_delete=models.CASCADE)
-    amount_weapons = models.IntegerField()
+    nome_arma = models.ForeignKey('Weapon', on_delete=models.CASCADE)
+    id_traficante = models.ForeignKey('Dealer', on_delete=models.CASCADE)
+    quantidade = models.IntegerField()
 
 class Religious(models.Model):
     class Meta:
-        db_table = 'religious_wars'
-        unique_together = (('id', 'conflict'))
-    conflict = models.ForeignKey('Conflict', on_delete=models.CASCADE)
+        db_table = 'ConfRelig'
+
+    conflito_id = models.ForeignKey('Conflict', on_delete=models.CASCADE)
+    religiao = models.CharField(null=False , max_length=50)
 
 class Economic(models.Model):
     class Meta:
-        db_table = 'economic_wars'
-        unique_together = (('id', 'conflict'))
+        db_table = 'ConfEcon'
+
     conflict = models.ForeignKey('Conflict', on_delete=models.CASCADE)
+    mat_prima = models.CharField(null=False , max_length=50)
     
+
 class Region(models.Model):
     class Meta:
-        db_table = 'region_wars'
-        unique_together = (('id', 'conflict'))
-    conflict = models.ForeignKey('Conflict', on_delete=models.CASCADE)
+        db_table = 'ConfRegiao'
 
-class Country(models.Model):
-    class Meta:
-        db_table = 'country_wars'
-        unique_together = (('id', 'conflict'))
     conflict = models.ForeignKey('Conflict', on_delete=models.CASCADE)
+    regiao = models.CharField(null=False , max_length=50)
 
 class Etnic(models.Model):
     class Meta:
-        db_table = 'etnic_wars'
-        unique_together = (('id', 'conflict'))        
+        db_table = 'ConfEtnia'
+
     conflict = models.ForeignKey('Conflict', on_delete=models.CASCADE)
+    etnia = models.CharField(null=False , max_length=50)
 
 
 class PoliticalLeadersMilitaryChiefs(models.Model):
     class Meta:
-        db_table = 'political_leaders_military_chiefs'
+        db_table = 'lideres_politicos_chefes_militares'
 
     political_leader = models.ForeignKey('PoliticalLeader', on_delete=models.CASCADE)
     military_chief = models.ForeignKey('MilitaryChief', on_delete=models.CASCADE)

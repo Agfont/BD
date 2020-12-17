@@ -1,9 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from . import models
+from . import forms
 
 # Create your views here.
          
+def conflict_form(request):
+    form = forms.ConflictForm(request.POST)
+    if form.is_valid():
+        pass
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+
 def list_conflicts(request):
     # i. Gerar um gráfico, histograma, por tipo de conflito e número de conflitos.
     records = models.Conflict.objects.raw(
@@ -17,7 +25,7 @@ def list_conflicts(request):
         """
     )
 
-    return {"data": records}
+    return render(records)
 
 
 def dealers_and_armed_groups(request):
@@ -34,7 +42,7 @@ def dealers_and_armed_groups(request):
         """
     )
 
-    return {"data": records}
+    return HttpResponse(records)
 
 def top5_deads_conficts(request):
     # iii. Listar os 5 maiores conflitos em número de mortos.
@@ -47,7 +55,7 @@ def top5_deads_conficts(request):
         """
     )
 
-    return {"data": records}
+    return HttpResponse(records)
 
 def top5_mediations_organizations(request):
     # iv. Listar as 5 maiores organizações em número de mediações.
@@ -65,7 +73,7 @@ def top5_mediations_organizations(request):
         limit 5;
         """
     )
-    return {"data": records}
+    return HttpResponse(records)
 
 def top5_largest_armed_groups(request):
     # v. Listar os 5 maiores grupos armados com maior número de armas fornecidos.
@@ -79,7 +87,7 @@ def top5_largest_armed_groups(request):
         """
     )
 
-    return {"data": records}
+    return HttpResponse(records)
 
 def countries_by_religious_conflicts(request):
     # vi. Listar o país e número de conflitos com maior número de conflitos religiosos.
@@ -97,3 +105,5 @@ def countries_by_religious_conflicts(request):
         limit 1
         """
     )
+
+    return HttpResponse(records)
