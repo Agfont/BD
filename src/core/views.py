@@ -11,6 +11,95 @@ from django.core import serializers
 import json
 
 # Create your views here.
+def populate(request):
+    cursor = connection.cursor()
+    cursor.execute('''
+    --12
+    INSERT INTO public.grupos_armados (id, nome_grupo, num_baixas) VALUES (2, 'grupo armado 2', 12321);
+    INSERT INTO public.grupos_armados (id, nome_grupo, num_baixas) VALUES (3, 'grupo armado 3', 3123);
+    INSERT INTO public.grupos_armados (id, nome_grupo, num_baixas) VALUES (4, 'grupo armado 4', 12312);
+    INSERT INTO public.grupos_armados (id, nome_grupo, num_baixas) VALUES (1, 'grupo armado 1', 223);
+    --13
+    INSERT INTO public.lideres_politicos (id, codigo_grupo, nome_l, apoios) VALUES (1, 1, 'Arthur', 'Apoios');
+    INSERT INTO public.lideres_politicos (id, codigo_grupo, nome_l, apoios) VALUES (2, 2, 'Gabriel', 'Apoios');
+    INSERT INTO public.lideres_politicos (id, codigo_grupo, nome_l, apoios) VALUES (3, 3, 'Victor', 'Apoios');
+    INSERT INTO public.lideres_politicos (id, codigo_grupo, nome_l, apoios) VALUES (4, 4, 'Mateus', 'Apoios');
+    --1
+    INSERT INTO public.chefes_militares (codigo_chef, faixa, n_div, id_lider, codigo_grupo) VALUES (1, 'Faixa', 1, 1, 1);
+    INSERT INTO public.chefes_militares (codigo_chef, faixa, n_div, id_lider, codigo_grupo) VALUES (2, 'Faixa', 1, 2, 2);
+    INSERT INTO public.chefes_militares (codigo_chef, faixa, n_div, id_lider, codigo_grupo) VALUES (4, 'Faixa', 4, 4, 4);
+    INSERT INTO public.chefes_militares (codigo_chef, faixa, n_div, id_lider, codigo_grupo) VALUES (3, 'Faixa', 1, 2, 2);
+    --4
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (14, 'conflito 13', 'Territorial', 1312313, 123123);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (17, 'conflito 17', 'Econômico', 1312313, 45568);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (7, 'conflito 6', 'Territorial', 1312313, 234234);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (4, 'conflito 4', 'Territorial', 1312313, 7675);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (1, 'conflito 1', 'Étnico', 1312313, 12334);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (16, 'conflito 16', 'Econômico', 1312313, 978);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (10, 'conflito 9', 'Religioso', 1312313, 213);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (3, 'conflito 3', 'Étnico', 1312313, 3455);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (18, 'conflito 18', 'Econômico', 1312313, 789);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (2, 'conflito 2', 'Religioso', 113123, 345);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (11, 'conflito 10', 'Econômico', 1312313, 32);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (6, 'conflito 14', 'Religioso', 1312313, 123);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (5, 'conflito 5', 'Econômico', 1312313, 56734534);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (13, 'conflito 12', 'Territorial', 1312313, 123);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (15, 'conflito 15', 'Econômico', 1312313, 123);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (12, 'conflito 11', 'Étnico', 1312313, 132);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (8, 'conflito 7', 'Religioso', 1312313, 123);
+    INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (9, 'conflito 8', 'Territorial', 1312313, 312);               
+    --5
+    INSERT INTO public."ConfRegiao" (conflito_id, regiao) VALUES (1, 'reg 1');
+    INSERT INTO public."ConfRegiao" (conflito_id, regiao) VALUES (2, 'reg 1');
+    INSERT INTO public."ConfRegiao" (conflito_id, regiao) VALUES (3, 'reg 2');
+    INSERT INTO public."ConfRegiao" (conflito_id, regiao) VALUES (4, 'reg 3');
+    INSERT INTO public."ConfRegiao" (conflito_id, regiao) VALUES (5, 'reg 3');
+    --14
+    INSERT INTO public.organizacoes_m (codigo_org, nome_org, tipo_ajuda, num_pessoas, tipo, org_lider) VALUES (1, 'org 1', 'tipo ajuda', 20, 'a', 'b');
+    INSERT INTO public.organizacoes_m (codigo_org, nome_org, tipo_ajuda, num_pessoas, tipo, org_lider) VALUES (2, 'org 2', 'tipo ajuda', 20, 'a', 'b');
+    INSERT INTO public.organizacoes_m (codigo_org, nome_org, tipo_ajuda, num_pessoas, tipo, org_lider) VALUES (3, 'org 3', 'tipo ajuda', 20, 'a', 'b');
+    INSERT INTO public.organizacoes_m (codigo_org, nome_org, tipo_ajuda, num_pessoas, tipo, org_lider) VALUES (4, 'org 4', 'tipo ajuda', 20, 'a', 'b');
+    INSERT INTO public.organizacoes_m (codigo_org, nome_org, tipo_ajuda, num_pessoas, tipo, org_lider) VALUES (5, 'org 5', 'tipo ajuda', 20, 'a', 'b');
+    INSERT INTO public.organizacoes_m (codigo_org, nome_org, tipo_ajuda, num_pessoas, tipo, org_lider) VALUES (6, 'org 6', 'tipo ajuda', 20, 'a', 'b');
+    INSERT INTO public.organizacoes_m (codigo_org, nome_org, tipo_ajuda, num_pessoas, tipo, org_lider) VALUES (7, 'org 7', 'tipo ajuda', 20, 'a', 'b');
+    INSERT INTO public.organizacoes_m (codigo_org, nome_org, tipo_ajuda, num_pessoas, tipo, org_lider) VALUES (8, 'org 8', 'tipo ajuda', 20, 'a', 'b');
+    --8
+    INSERT INTO public.divisoes (divisao_id, codigo_grupo, num_baixas_d, barcos, tanques, avioes, homens) VALUES (1, 1, 123, 1, 13, 123, 112313);
+    --9
+    INSERT INTO public."EntPart" (grupo_armado_id, conflito_id, de_grupo) VALUES (1, 1, '2020-12-16 23:27:23.000000');
+    INSERT INTO public."EntPart" (grupo_armado_id, conflito_id, de_grupo) VALUES (2, 1, '2020-12-16 23:27:44.000000');
+    --10
+    INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (1, 1, '2020-12-17 19:04:17.000000');
+    INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (1, 1, '2020-12-17 19:04:42.000000');
+    INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (2, 2, '2020-12-17 19:04:43.000000');
+    INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (2, 3, '2020-12-17 19:04:43.000000');
+    INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (3, 5, '2020-12-17 19:04:44.000000');
+    INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (1, 6, '2020-12-17 19:04:44.000000');
+    INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (2, 7, '2020-12-17 19:04:45.000000');
+    INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (3, 8, '2020-12-17 19:04:45.000000');
+    INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (4, 9, '2020-12-17 19:04:46.000000');
+    INSERT INTO public."EntraMed" (codigo_org, conflito_id, de_media) VALUES (1, 4, '2020-12-17 19:04:44.000000');
+    --17
+    INSERT INTO public.tipo_armas (nome_arma, indicador) VALUES ('M200 intervention', 1);
+    INSERT INTO public.tipo_armas (nome_arma, indicador) VALUES ('Barret M82', 2);
+    --18
+    INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (1, 'traficante 1');
+    INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (2, 'traficante 2');
+    INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (3, 'traficante 3');
+    INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (4, 'traficante 4');
+    INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (5, 'traficante 5');
+    INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (6, 'traficante 6');
+    INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (7, 'traficante 7');
+    INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (8, 'traficante 8');
+    INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (9, 'traficante 9');
+    --11
+    INSERT INTO public.fornece (codigo_grupo, nome_arma, id_traficante, num_armas) VALUES (3, 'M200 intervention', 1, 123);
+    INSERT INTO public.fornece (codigo_grupo, nome_arma, id_traficante, num_armas) VALUES (2, 'M200 intervention', 2, 12333);
+    INSERT INTO public.fornece (codigo_grupo, nome_arma, id_traficante, num_armas) VALUES (4, 'Barret M82', 2, 3457);
+    INSERT INTO public.fornece (codigo_grupo, nome_arma, id_traficante, num_armas) VALUES (1, 'Barret M82', 1, 13);
+    ''')
+    
+    return HttpResponse("O BD foi populado!")
 
 def conflict_form(request):
     
@@ -109,29 +198,28 @@ def list_conflicts(request):
     order by tipo asc
     ''')
 
+    # return HttpResponse(records)
+    # # # return render(records)
 
     records = cursor.fetchall()
-    return HttpResponse(records)
-    # # return render(records)
-    # import matplotlib.pyplot as plt
+    import matplotlib.pyplot as plt
 
-    # x = []
+    # return render(records)
+    import matplotlib.pyplot as plt
 
-    # for j in range(len(records)):
-    #     for i in range(int(records[j][1])):
-    #         x.append(records[j][0])
+    x = []
 
-    # plt.hist(x, bins = 10)
-    # plt.savefig('histogram.png')
-    # plt.close()
-    # try:
-    #     with open('histogram.png', "rb") as f:
-    #         return HttpResponse(f.read(), content_type="image/png")
-    # except IOError:
-    #     red = Image.new('RGBA', (1, 1), (255,0,0,0))
-    #     response = HttpResponse(content_type="image/png")
-    #     red.save(response, "JPEG")
-    #     return response
+    plt.hist(x, bins = 10)
+    plt.savefig('histogram.png')
+    plt.close()
+    try:
+        with open('histogram.png', "rb") as f:
+            return HttpResponse(f.read(), content_type="image/png")
+    except IOError:
+        red = Image.new('RGBA', (1, 1), (255,0,0,0))
+        response = HttpResponse(content_type="image/png")
+        red.save(response, "JPEG")
+        return response
 
 
 def dealers_and_armed_groups(request):
@@ -148,7 +236,15 @@ def dealers_and_armed_groups(request):
     for i in cursor:
         x.append({'traficate': i[0], 'grupo': i[1], 'arma': i[2]})
 
+    # return HttpResponse(records)
     return JsonResponse(x,safe=False)
+
+def drop_schema(request):
+    cursor = connection.cursor()
+    cursor.execute('''DROP schema public CASCADE''')
+    cursor.execute('''CREATE schema public''')
+    return HttpResponse("Esquema foi criado novamente")
+
 
 def top5_deads_conficts(request):
     cursor = connection.cursor()
@@ -161,6 +257,7 @@ def top5_deads_conficts(request):
         """
     )
 
+    # return HttpResponse(records)
     x = []
 
     for i in cursor:
@@ -179,6 +276,7 @@ def top5_mediations_organizations(request):
         ORDER BY num_intermed DESC LIMIT 5;
         """
     )
+    # return HttpResponse(records)
     
     x = []
 
@@ -200,6 +298,7 @@ def top5_largest_armed_groups(request):
         """
     )
 
+    # return HttpResponse(records)
     x = []
 
     for i in cursor:
@@ -237,7 +336,7 @@ def create_db(request):
     cursor = connection.cursor()
     cursor.execute(
         """
-            CREATE TABLE "grupos_armados" (
+        CREATE TABLE "grupos_armados" (
   "id" int NOT NULL PRIMARY KEY,
   "nome_grupo" varchar,
   "num_baixas" int
@@ -438,7 +537,7 @@ CREATE TRIGGER conflito_economico BEFORE INSERT OR UPDATE on "ConfEcon"
 FOR EACH ROW EXECUTE PROCEDURE exclusividade_confEcon();
 
 -- Territorial
-CREATE OR REPLACE FUNCTION exclusividade_confTerritorial() RETURN TRIGGER AS $territorial$
+CREATE OR REPLACE FUNCTION exclusividade_confTerritorial() RETURNS TRIGGER AS $territorial$
 BEGIN
     IF EXISTS(SELECT conflito_id FROM "ConfRelig"
             WHERE conflito_id = NEW.conflito_id) THEN
@@ -455,11 +554,11 @@ END;
 $territorial$
 LANGUAGE plpgsql;
 
-CREATE TRIGGER conflito_economico BEFORE INSERT OR UPDATE on "ConfRegiao"
+CREATE TRIGGER conflito_territorial BEFORE INSERT OR UPDATE on "ConfRegiao"
 FOR EACH ROW EXECUTE PROCEDURE exclusividade_confTerritorial();
 
 -- Étnico
-CREATE OR REPLACE FUNCTION exclusividade_confEtnico() RETURN TRIGGER AS $etnico$
+CREATE OR REPLACE FUNCTION exclusividade_confEtnico() RETURNS TRIGGER AS $etnico$
 BEGIN
     IF EXISTS(SELECT conflito_id FROM "ConfRelig"
             WHERE conflito_id = NEW.conflito_id) THEN
@@ -476,7 +575,7 @@ END;
 $etnico$
 LANGUAGE plpgsql;
 
-CREATE TRIGGER conflito_economico BEFORE INSERT OR UPDATE on "ConfRegiao"
+CREATE TRIGGER conflito_etnico BEFORE INSERT OR UPDATE on "ConfRegiao"
 FOR EACH ROW EXECUTE PROCEDURE exclusividade_confEtnico();
 
 -- 1.b)
@@ -616,7 +715,7 @@ FOR EACH ROW EXECUTE PROCEDURE num_baixas();
 CREATE OR REPLACE FUNCTION id_divisoes() returns trigger AS $idDiv$
 DECLARE id int;
 BEGIN
-|   id := (SELECT MAX(divisao_id)
+   id := (SELECT MAX(divisao_id)
         FROM divisoes
         WHERE codigo_grupo = NEW.codigo_grupo
         GROUP BY divisao_id, codigo_grupo);
@@ -632,9 +731,8 @@ LANGUAGE plpgsql;
 
 CREATE TRIGGER atualizar_id_div BEFORE INSERT ON divisoes
 FOR EACH ROW EXECUTE PROCEDURE id_divisoes();
-
-
         """
     )
+    return HttpResponse("O banco de dados foi criado!")
 
     return HttpResponse(records)
