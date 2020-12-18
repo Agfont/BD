@@ -339,7 +339,7 @@ def countries_by_religious_conflicts(request):
     return JsonResponse(x,safe=False)
 
 def test(request):
-    return JsonResponse({'log': 'We are online!'})
+    return render(request,'core/static/template/home.html')
 
 def addMilitaryChief(request):
     return HttpResponse('ok')
