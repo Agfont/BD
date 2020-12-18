@@ -1,11 +1,11 @@
 body{
-    background-color: aquamarine;
+    background-color: rgb(44, 102, 83);
     font: normal 15pt Arial;
 }
 
 header{
     text-align: center;
-    color: rgba(12, 7, 7, 0.315);
+    color: rgba(12, 7, 7, 0.795);
 
 }
 
@@ -13,9 +13,10 @@ section{
     background: white;
     border-radius: 10px;
     padding: 15px;
-    width: 500px;
+    width: 800px;
     margin: auto;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.863);
+    margin-bottom: 50px;
 }
 
 footer{
@@ -24,3 +25,51 @@ footer{
     text-align: center;
     color: rgba(12, 7, 7, 0.315);
 }
+
+div.integrants{
+    text-align: center;
+}
+
+h3{
+    text-align: center;
+}
+
+a:link {
+    color: rgb(44, 102, 83);
+    text-decoration:none;
+  }
+
+  a:visited {
+    color: rgb(44, 102, 83);
+    text-decoration:none;
+  }
+
+  a:hover {
+    color:#000000;
+    text-decoration:underline;
+  }
+
+  a:active {
+    color:#5eeb5e;
+    text-decoration:underline;
+  }
+
+  ul#table-creation{
+      text-align: center;
+  }
+
+  li{
+      margin-top: 8px;
+  }
+
+  ul{
+    margin-bottom: auto;
+  }
+
+  .nobull{
+    list-style-type: none;
+  }
+
+  .bullet{
+    list-style-image: url('bullet1.png');
+  }
