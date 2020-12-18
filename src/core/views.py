@@ -100,11 +100,90 @@ def populate(request):
     
     return HttpResponse("O BD foi populado!")
 
-
 def conflict_form(request):
-    form = forms.ConflictForm(request.POST)
-    if form.is_valid():
-        pass
+    form = forms.ConflictForm()    
+    if request.method == 'POST':
+        form = forms.ConflictForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+
+
+     
+def military_chief_form(request):
+    form = forms.MilitaryChiefForm()    
+    if request.method == 'POST':
+        form = forms.MilitaryChiefForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+
+     
+def political_leader_form(request):
+    form = forms.PoliticalLeaderForm()    
+    if request.method == 'POST':
+        form = forms.PoliticalLeaderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+     
+def armed_group_form(request):
+    form = forms.ArmedGroupForm()    
+    if request.method == 'POST':
+        form = forms.ArmedGroupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+
+     
+def division_form(request):
+    form = forms.DivisionForm()    
+    if request.method == 'POST':
+        form = forms.DivisionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+
+     
+def organization_form(request):
+    form = forms.OrganizationForm()    
+    if request.method == 'POST':
+        form = forms.OrganizationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+
+     
+def weapon_form(request):
+    form = forms.WeaponForm()        
+    if request.method == 'POST':
+        form = forms.WeaponForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+
+     
+def dealer_form(request):
+    form = forms.DealerForm()    
+    if request.method == 'POST':
+        form = forms.DealerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
 
     return render(request, 'core/static/template/index.html', {'form': form})
 
@@ -134,17 +213,16 @@ def list_conflicts(request):
     order by tipo asc
     ''')
 
+    # return HttpResponse(records)
+    # # # return render(records)
 
     records = cursor.fetchall()
+    import matplotlib.pyplot as plt
 
     # return render(records)
     import matplotlib.pyplot as plt
 
     x = []
-
-    for j in range(len(records)):
-        for i in range(int(records[j][1])):
-            x.append(records[j][0])
 
     plt.hist(x, bins = 10)
     plt.savefig('histogram.png')
