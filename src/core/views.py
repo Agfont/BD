@@ -109,6 +109,22 @@ def conflict_form(request):
     return render(request, 'core/static/template/index.html', {'form': form})
 
 
+
+def submit_form(request):
+    x = []
+
+    for i in request.POST.values():
+        x.append(i)
+
+    
+    cursor = connection.cursor()
+    cursor.execute(
+        "INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (%i, %s, %s, %i, %i);"
+        %(int(x[1]),x[2],x[3],int(x[4]),int(x[5]))
+        )
+
+    return HttpResponse("Conflito inserido")
+
 # Create your views here.
 def list_conflicts(request):
     cursor = connection.cursor()

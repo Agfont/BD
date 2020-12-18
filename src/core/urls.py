@@ -4,14 +4,15 @@ from . import views
 
 urlpatterns = [
     path('', views.test),
-    path('2/', views.conflict_form),
+    path('create/conflict/', views.conflict_form),
+    path('submit/conflict/', views.submit_form),
     path('i/', views.list_conflicts),
     path('ii/', views.dealers_and_armed_groups),
     path('iii/', views.top5_deads_conficts),
     path('iv/', views.top5_mediations_organizations),
     path('v/', views.top5_largest_armed_groups),
     path('vi/', views.countries_by_religious_conflicts),
-    path('create-db', views.create_db),
-    path('drop-schema', views.drop_schema),
-    path('populate', views.populate)
+    path('create-db/', views.create_db),
+    path('drop-schema/', views.drop_schema),
+    path('populate/', views.populate)
 ]

@@ -13,7 +13,7 @@
     </header>
 
     <section>
-        <form method="post" novalidate>
+        <form action="/submit/conflict/" method="post" novalidate>
         {% csrf_token %}
             <table border="1">
                 {{ form }}
