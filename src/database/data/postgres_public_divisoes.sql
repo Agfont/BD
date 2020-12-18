@@ -1,0 +1,1 @@
+INSERT INTO public.divisoes (divisao_id, codigo_grupo, num_baixas_d, barcos, tanques, avioes, homens) VALUES (1, 1, 123, 1, 13, 123, 112313);

@@ -1,0 +1,9 @@
+INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (1, 'traficante 1');
+INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (2, 'traficante 2');
+INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (3, 'traficante 3');
+INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (4, 'traficante 4');
+INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (5, 'traficante 5');
+INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (6, 'traficante 6');
+INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (7, 'traficante 7');
+INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (8, 'traficante 8');
+INSERT INTO public.traficantes (id_traficante, nome_traficante) VALUES (9, 'traficante 9');

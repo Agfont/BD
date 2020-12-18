@@ -1,6 +1,3 @@
-create schema public
-
--- ArmedGroup
 CREATE TABLE "grupos_armados" (
   "id" int NOT NULL PRIMARY KEY,
   "nome_grupo" varchar,
@@ -159,48 +156,93 @@ CREATE TABLE "ConfEtnia" (
 );
 
 -- 1.a)
-CREATE OR REPLACE FUNCTION exclusividade_conflitos() returns trigger AS $hierarquia$
-DECLARE tipo_definido varchar;
+-- Religioso
+CREATE OR REPLACE FUNCTION exclusividade_confRelig() RETURNS TRIGGER AS $relig$
 BEGIN
-    if exists(select conflito_id from "ConfRelig" where conflito_id = NEW.conflito_id) then
-        RAISE EXCEPTION 'Erro: O conflito % já é do tipo.', NEW.conflito_id;
-    elsif exists(select conflito_id from "ConfEcon" where conflito_id = NEW.conflito_id) then
-        RAISE EXCEPTION 'Erro: O conflito % já é do tipo.', NEW.conflito_id;
-    elsif exists(select conflito_id from "ConfEtnia" where conflito_id = NEW.conflito_id) then
-        RAISE EXCEPTION 'Erro: O conflito % já é do tipo.', NEW.conflito_id;
-    elsif exists(select conflito_id from "ConfRegiao" where conflito_id = NEW.conflito_id) then
-        RAISE EXCEPTION 'Erro: O conflito % já é do tipo.', NEW.conflito_id;
-    end if;
+    IF EXISTS(SELECT conflito_id FROM "ConfEcon"
+              WHERE conflito_id = NEW.conflito_id) THEN
+         RAISE EXCEPTION 'Erro: O conflito % já é do tipo econômico.', NEW.conflito_id;
+    ELSIF EXISTS(SELECT conflito_id FROM "ConfRegiao"
+              WHERE conflito_id = NEW.conflito_id) THEN
+         RAISE EXCEPTION 'Erro: O conflito % já é do tipo territorial.', NEW.conflito_id;
+    ELSIF EXISTS(SELECT conflito_id FROM "ConfEtnia"
+              WHERE conflito_id = NEW.conflito_id) THEN
+         RAISE EXCEPTION 'Erro: O conflito % já é do tipo étnico.', NEW.conflito_id;
+    END IF;
     RETURN NEW;
-END
-$hierarquia$
+END;
+$relig$
 LANGUAGE plpgsql;
 
+CREATE TRIGGER conflito_religioso BEFORE INSERT OR UPDATE on "ConfRelig"
+FOR EACH ROW EXECUTE PROCEDURE exclusividade_confRelig();
 
-CREATE TRIGGER conflito_religioso
-    BEFORE INSERT OR UPDATE
-    on "ConfRelig"
-    FOR EACH ROW EXECUTE PROCEDURE exclusividade_conflitos();
+-- Econômico
+CREATE OR REPLACE FUNCTION exclusividade_confEcon() RETURNS TRIGGER AS $econ$
+BEGIN
+    IF EXISTS(SELECT conflito_id FROM "ConfRelig"
+            WHERE conflito_id = NEW.conflito_id) THEN
+        RAISE EXCEPTION 'Erro: O conflito % já é do tipo religioso.', NEW.conflito_id;
+    ELSIF EXISTS(SELECT conflito_id FROM "ConfRegiao"
+            WHERE conflito_id = NEW.conflito_id) THEN
+        RAISE EXCEPTION 'Erro: O conflito % já é do tipo territorial.', NEW.conflito_id;
+    ELSIF EXISTS(SELECT conflito_id FROM "ConfEtnia"
+            WHERE conflito_id = NEW.conflito_id) THEN
+        RAISE EXCEPTION 'Erro: O conflito % já é do tipo étnico.', NEW.conflito_id;
+    END IF;
+    RETURN NEW;
+END;
+$econ$
+LANGUAGE plpgsql;
 
 CREATE TRIGGER conflito_economico BEFORE INSERT OR UPDATE on "ConfEcon"
-FOR EACH ROW EXECUTE PROCEDURE exclusividade_conflitos();
+FOR EACH ROW EXECUTE PROCEDURE exclusividade_confEcon();
 
-CREATE TRIGGER conflito_regional BEFORE INSERT OR UPDATE on "ConfRegiao"
-FOR EACH ROW EXECUTE PROCEDURE exclusividade_conflitos();
+-- Territorial
+CREATE OR REPLACE FUNCTION exclusividade_confTerritorial() RETURN TRIGGER AS $territorial$
+BEGIN
+    IF EXISTS(SELECT conflito_id FROM "ConfRelig"
+            WHERE conflito_id = NEW.conflito_id) THEN
+        RAISE EXCEPTION 'Erro: O conflito % já é do tipo religioso.', NEW.conflito_id;
+    ELSIF EXISTS(SELECT conflito_id FROM "ConfEcon"
+            WHERE conflito_id = NEW.conflito_id) THEN
+        RAISE EXCEPTION 'Erro: O conflito % já é do tipo econômico.', NEW.conflito_id;
+    ELSIF EXISTS(SELECT conflito_id FROM "ConfEtnia"
+            WHERE conflito_id = NEW.conflito_id) THEN
+        RAISE EXCEPTION 'Erro: O conflito % já é do tipo étnico.', NEW.conflito_id;
+    END IF;
+    RETURN NEW;
+END;
+$territorial$
+LANGUAGE plpgsql;
 
-CREATE TRIGGER conflito_etnia BEFORE INSERT OR UPDATE on "ConfEtnia"
-FOR EACH ROW EXECUTE PROCEDURE exclusividade_conflitos();
+CREATE TRIGGER conflito_economico BEFORE INSERT OR UPDATE on "ConfRegiao"
+FOR EACH ROW EXECUTE PROCEDURE exclusividade_confTerritorial();
+
+-- Étnico
+CREATE OR REPLACE FUNCTION exclusividade_confEtnico() RETURN TRIGGER AS $etnico$
+BEGIN
+    IF EXISTS(SELECT conflito_id FROM "ConfRelig"
+            WHERE conflito_id = NEW.conflito_id) THEN
+        RAISE EXCEPTION 'Erro: O conflito % já é do tipo religioso.', NEW.conflito_id;
+    ELSIF EXISTS(SELECT conflito_id FROM "ConfEcon"
+            WHERE conflito_id = NEW.conflito_id) THEN
+        RAISE EXCEPTION 'Erro: O conflito % já é do tipo econômico.', NEW.conflito_id;
+    ELSIF EXISTS(SELECT conflito_id FROM "ConfRegiao"
+            WHERE conflito_id = NEW.conflito_id) THEN
+        RAISE EXCEPTION 'Erro: O conflito % já é do tipo territorial.', NEW.conflito_id;
+    END IF;
+    RETURN NEW;
+END;
+$etnico$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER conflito_economico BEFORE INSERT OR UPDATE on "ConfRegiao"
+FOR EACH ROW EXECUTE PROCEDURE exclusividade_confEtnico();
 
 -- 1.b)
 -- Tabela chefes_militares: "id_lider" int NOT NULL
 -- Também criamos uma tabela adicional caso um chefe tenha mais de um líder
-CREATE TABLE "chefes_lider" (
-  "codigo_chef" int,
-  "codigo_lider" int
-);
--- CREATE RULE chefe_min_1_lider AS
---     ON DELETE TO chefes_lider DO( (SELECT COUNT(DINSTINCT codigo_lider) FROM chefes_lider)>= 1 );
---     DO INSTEAD NOTHING;
 
 -- 1.c)
 CREATE OR REPLACE FUNCTION divisao_min_1_chefe() returns trigger AS $divisaoMin1$
@@ -208,12 +250,12 @@ BEGIN
     IF (TG_OP = 'DELETE') THEN
         IF (SELECT COUNT(codigo_chef) FROM chefes_militares
             WHERE n_div = OLD.n_div) = 1 THEN
-            RAISE EXCEPTION 'Erro: A divisão % é dirigida apenas pelo chefe %.', n_div, codigo_chef;
+            RAISE EXCEPTION 'Erro: A divisão % é dirigida apenas pelo chefe %.', old.n_div, old.codigo_chef;
         END IF;
         RETURN OLD;
     ELSIF (SELECT COUNT(codigo_chef) FROM chefes_militares
-           WHERE n_div = OLD.n_div) = 1 AND NEW.n_div != OLD.n_div THEN
-        RAISE EXCEPTION 'Erro: A divisão % é dirigida apenas pelo chefe %.', n_div, codigo_chef;
+        WHERE n_div = OLD.n_div) = 1 AND NEW.n_div != OLD.n_div THEN
+        RAISE EXCEPTION 'Erro: A divisão % é dirigida apenas pelo chefe %.', old.n_div, old.codigo_chef;
     END IF;
     RETURN NEW;
 END;
@@ -230,11 +272,11 @@ BEGIN
         WHERE n_div = NEW.n_div) = 3
         AND TG_OP = 'UPDATE'
         AND NEW.n_div != OLD.n_div )THEN
-        RAISE EXCEPTION 'Erro: A divisão % já é dirigida por 3 chefes .', n_div;
+        RAISE EXCEPTION 'Erro: A divisão % já é dirigida por 3 chefes .', new.n_div;
 
     ELSIF (SELECT COUNT(codigo_chef) FROM chefes_militares
-           WHERE n_div = OLD.n_div) = 3  THEN
-        RAISE EXCEPTION 'Erro: A divisão % já é dirigida por 3 chefes .', n_div;
+        WHERE n_div = NEW.n_div) = 3  THEN
+        RAISE EXCEPTION 'Erro: A divisão % já é dirigida por 3 chefes .', new.n_div;
     END IF;
     RETURN NEW;
 END;
@@ -257,7 +299,7 @@ BEGIN
     ELSIF ((SELECT COUNT(divisao_id) FROM divisoes
             WHERE codigo_grupo = OLD.codigo_grupo) = 1
             AND NEW.codigo_grupo != OLD.codigo_grupo) THEN
-          RAISE EXCEPTION 'Erro: Todo grupo dispõe de no mínimo 1 divisão.';
+        RAISE EXCEPTION 'Erro: Todo grupo dispõe de no mínimo 1 divisão.';
     END IF;
     RETURN NEW;
 END;
@@ -267,15 +309,17 @@ LANGUAGE plpgsql;
 CREATE TRIGGER min1_div_grupo BEFORE DELETE OR UPDATE ON divisoes
 FOR EACH ROW EXECUTE PROCEDURE grupo_min_1_div();
 
+
+
 -- 1.f)
 CREATE OR REPLACE FUNCTION conflito_min_2_grupos() returns trigger AS $conflito2Grupos$
 DECLARE grupos_part int;
 BEGIN
     grupos_part := (SELECT COUNT(DISTINCT grupo_armado_id)
-                    FROM EntPart
-                    group BY conflito_id);
+                    FROM "EntPart"
+                    group by  conflito_id);
     IF grupos_part <= 2 THEN
-      RAISE EXCEPTION '"Erro: Em um conflito participam no mínimo 2 grupos armados.';
+    RAISE EXCEPTION '"Erro: Em um conflito participam no mínimo 2 grupos armados.';
     END IF;
     RETURN OLD;
 END;
@@ -289,8 +333,8 @@ FOR EACH ROW EXECUTE PROCEDURE conflito_min_2_grupos();
 CREATE OR REPLACE FUNCTION conflito_min_1_pais() returns trigger AS $conflito1Pais$
 BEGIN
     IF TG_OP = 'DELETE' AND
-        (SELECT COUNT(*) FROM ConfRegiao
-          WHERE regiao = OLD.regiao) = 1 THEN
+        (SELECT COUNT(*) FROM "ConfRegiao"
+        WHERE regiao = OLD.regiao) = 1 THEN
         RAISE EXCEPTION 'Erro: Qualquer conflito afeta pelo menos 1 país.';
     END IF;
     RETURN NEW;
@@ -301,26 +345,25 @@ LANGUAGE plpgsql;
 CREATE TRIGGER conflito_paises BEFORE DELETE OR UPDATE ON "ConfRegiao"
 FOR EACH ROW EXECUTE PROCEDURE conflito_min_1_pais();
 
--- 1.h)
+-- 1.h
 CREATE OR REPLACE FUNCTION num_baixas() returns trigger AS $novasBaixas$
 BEGIN
-    IF TG_OP = 'INSERT' THEN
-      UPDATE grupos_armados
-      SET num_baixas = num_baixas + NEW.num_baixas_d
-      WHERE codigo_grupo = NEW.codigo_grupo;
-      RETURN NEW;
-
-    ELSIF TG_OP = 'UPDATE' THEN
-      UPDATE grupos_armados
-      SET num_baixas = num_baixas + NEW.num_baixas_d - OLD.num_baixas_d
-      WHERE codigo_grupo = NEW.codigo_grupo;
-      RETURN NEW;
+    IF (TG_OP = 'INSERT') THEN
+        UPDATE grupos_armados
+        SET num_baixas = num_baixas + NEW.num_baixas_d
+        WHERE grupos_armados.id = NEW.codigo_grupo;
+        RETURN NEW;
+    ELSIF (TG_OP = 'UPDATE') THEN
+        UPDATE grupos_armados
+        SET num_baixas = num_baixas + NEW.num_baixas_d - OLD.num_baixas_d
+        WHERE grupos_armados.id = NEW.codigo_grupo;
+        RETURN NEW;
 
     ELSE
-      UPDATE grupos_armados
-      SET num_baixas = num_baixas - OLD.num_baixas_d
-      WHERE codigo_grupo = OLD.codigo_grupo;
-      RETURN OLD;
+        UPDATE grupos_armados
+        SET num_baixas = num_baixas - OLD.num_baixas_d
+        WHERE grupos_armados.id = OLD.codigo_grupo;
+        RETURN OLD;
     END IF;
     RETURN NEW;
 END;
@@ -334,10 +377,10 @@ FOR EACH ROW EXECUTE PROCEDURE num_baixas();
 CREATE OR REPLACE FUNCTION id_divisoes() returns trigger AS $idDiv$
 DECLARE id int;
 BEGIN
-    id := (SELECT MAX(divisao_id)
-          FROM divisoes
-          WHERE codigo_grupo = NEW.codigo_grupo
-          ORDER BY divisao_id, codigo_grupo);
+|   id := (SELECT MAX(divisao_id)
+        FROM divisoes
+        WHERE codigo_grupo = NEW.codigo_grupo
+        GROUP BY divisao_id, codigo_grupo);
     IF id IS NULL THEN
         NEW.divisao_id := 1;
     ELSE
@@ -350,3 +393,4 @@ LANGUAGE plpgsql;
 
 CREATE TRIGGER atualizar_id_div BEFORE INSERT ON divisoes
 FOR EACH ROW EXECUTE PROCEDURE id_divisoes();
+

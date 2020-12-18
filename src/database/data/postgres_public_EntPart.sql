@@ -1,0 +1,2 @@
+INSERT INTO public."EntPart" (grupo_armado_id, conflito_id, de_grupo) VALUES (1, 1, '2020-12-16 23:27:23.000000');
+INSERT INTO public."EntPart" (grupo_armado_id, conflito_id, de_grupo) VALUES (2, 1, '2020-12-16 23:27:44.000000');
