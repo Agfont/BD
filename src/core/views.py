@@ -102,9 +102,9 @@ def populate(request):
     return HttpResponse("O BD foi populado!")
 
 def conflict_form(request):
-    
-    form = forms.ConflictForm(request.POST)
+    form = forms.ConflictForm()    
     if request.method == 'POST':
+        form = forms.ConflictForm(request.POST)
         if form.is_valid():
             form.save()
             print("FORM IS SAVED")
@@ -114,9 +114,9 @@ def conflict_form(request):
 
      
 def military_chief_form(request):
-    
-    form = forms.MilitaryChiefForm(request.POST)
+    form = forms.MilitaryChiefForm()    
     if request.method == 'POST':
+        form = forms.MilitaryChiefForm(request.POST)
         if form.is_valid():
             form.save()
             print("FORM IS SAVED")
@@ -125,9 +125,9 @@ def military_chief_form(request):
 
      
 def political_leader_form(request):
-    
-    form = forms.PoliticalLeaderForm(request.POST)
+    form = forms.PoliticalLeaderForm()    
     if request.method == 'POST':
+        form = forms.PoliticalLeaderForm(request.POST)
         if form.is_valid():
             form.save()
             print("FORM IS SAVED")
@@ -135,9 +135,9 @@ def political_leader_form(request):
     return render(request, 'core/static/template/index.html', {'form': form})
      
 def armed_group_form(request):
-    
-    form = forms.ArmedGroupForm(request.POST)
+    form = forms.ArmedGroupForm()    
     if request.method == 'POST':
+        form = forms.ArmedGroupForm(request.POST)
         if form.is_valid():
             form.save()
             print("FORM IS SAVED")
@@ -146,9 +146,9 @@ def armed_group_form(request):
 
      
 def division_form(request):
-    
-    form = forms.DivisionForm(request.POST)
+    form = forms.DivisionForm()    
     if request.method == 'POST':
+        form = forms.DivisionForm(request.POST)
         if form.is_valid():
             form.save()
             print("FORM IS SAVED")
@@ -157,9 +157,9 @@ def division_form(request):
 
      
 def organization_form(request):
-    
-    form = forms.OrganizationForm(request.POST)
+    form = forms.OrganizationForm()    
     if request.method == 'POST':
+        form = forms.OrganizationForm(request.POST)
         if form.is_valid():
             form.save()
             print("FORM IS SAVED")
@@ -168,9 +168,9 @@ def organization_form(request):
 
      
 def weapon_form(request):
-    
-    form = forms.WeaponForm(request.POST)
+    form = forms.WeaponForm()        
     if request.method == 'POST':
+        form = forms.WeaponForm(request.POST)
         if form.is_valid():
             form.save()
             print("FORM IS SAVED")
@@ -179,9 +179,9 @@ def weapon_form(request):
 
      
 def dealer_form(request):
-    
-    form = forms.DealerForm(request.POST)
+    form = forms.DealerForm()    
     if request.method == 'POST':
+        form = forms.DealerForm(request.POST)
         if form.is_valid():
             form.save()
             print("FORM IS SAVED")
