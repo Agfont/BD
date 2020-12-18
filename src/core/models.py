@@ -10,15 +10,15 @@ class MilitaryChief(models.Model):
     codigo_chef = models.IntegerField(primary_key=True)
     faixa = models.CharField(max_length=CHARFIELD_LENGTH)
     n_div = models.IntegerField()
-    codigo_grupo = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE, null=False)
     id_lider = models.ForeignKey('PoliticalLeader', on_delete=models.CASCADE)
+    codigo_grupo = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
 
 class PoliticalLeader(models.Model):
     class Meta:
         db_table = 'lideres_politicos'
      
     nome_l = models.CharField(max_length=CHARFIELD_LENGTH)
-    codigo_grupo = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE)
+    codigo_grupo = models.ForeignKey('ArmedGroup', on_delete=models.CASCADE, db_column='codigo_grupo')
     apoios = models.CharField(max_length=CHARFIELD_LENGTH)
 
 class ArmedGroup(models.Model):
