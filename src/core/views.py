@@ -6,18 +6,96 @@ from . import forms
 from django.http import JsonResponse
 from django.db import connection
 from django.core import serializers
-from matplotlib import pyplot as plt
-from pandas import pandas as pd
+# from matplotlib import pyplot as plt
+# from pandas import pandas as pd
 import json
 
 # Create your views here.
 
-
-         
 def conflict_form(request):
+    
     form = forms.ConflictForm(request.POST)
-    if form.is_valid():
-        pass
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+
+
+     
+def military_chief_form(request):
+    
+    form = forms.MilitaryChiefForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+
+     
+def political_leader_form(request):
+    
+    form = forms.PoliticalLeaderForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+     
+def armed_group_form(request):
+    
+    form = forms.ArmedGroupForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+
+     
+def division_form(request):
+    
+    form = forms.DivisionForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+
+     
+def organization_form(request):
+    
+    form = forms.OrganizationForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+
+     
+def weapon_form(request):
+    
+    form = forms.WeaponForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+
+     
+def dealer_form(request):
+    
+    form = forms.DealerForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            print("FORM IS SAVED")
 
     return render(request, 'core/static/template/index.html', {'form': form})
 
@@ -33,30 +111,27 @@ def list_conflicts(request):
 
 
     records = cursor.fetchall()
+    return HttpResponse(records)
+    # # return render(records)
+    # import matplotlib.pyplot as plt
 
-<<<<<<< HEAD
-    return render(records)
-=======
-    import matplotlib.pyplot as plt
+    # x = []
 
-    x = []
+    # for j in range(len(records)):
+    #     for i in range(int(records[j][1])):
+    #         x.append(records[j][0])
 
-    for j in range(len(records)):
-        for i in range(int(records[j][1])):
-            x.append(records[j][0])
-
-    plt.hist(x, bins = 10)
-    plt.savefig('histogram.png')
-    plt.close()
-    try:
-        with open('histogram.png', "rb") as f:
-            return HttpResponse(f.read(), content_type="image/png")
-    except IOError:
-        red = Image.new('RGBA', (1, 1), (255,0,0,0))
-        response = HttpResponse(content_type="image/png")
-        red.save(response, "JPEG")
-        return response
->>>>>>> c6d829da7e6a0e35943efb271b2a9b6ccc431873
+    # plt.hist(x, bins = 10)
+    # plt.savefig('histogram.png')
+    # plt.close()
+    # try:
+    #     with open('histogram.png', "rb") as f:
+    #         return HttpResponse(f.read(), content_type="image/png")
+    # except IOError:
+    #     red = Image.new('RGBA', (1, 1), (255,0,0,0))
+    #     response = HttpResponse(content_type="image/png")
+    #     red.save(response, "JPEG")
+    #     return response
 
 
 def dealers_and_armed_groups(request):
@@ -73,11 +148,7 @@ def dealers_and_armed_groups(request):
     for i in cursor:
         x.append({'traficate': i[0], 'grupo': i[1], 'arma': i[2]})
 
-<<<<<<< HEAD
-    return HttpResponse(records)
-=======
     return JsonResponse(x,safe=False)
->>>>>>> c6d829da7e6a0e35943efb271b2a9b6ccc431873
 
 def top5_deads_conficts(request):
     cursor = connection.cursor()
@@ -90,16 +161,12 @@ def top5_deads_conficts(request):
         """
     )
 
-<<<<<<< HEAD
-    return HttpResponse(records)
-=======
     x = []
 
     for i in cursor:
         x.append({'conflito': i[1], 'mortos': i[4]})
 
     return JsonResponse(x,safe=False)
->>>>>>> c6d829da7e6a0e35943efb271b2a9b6ccc431873
 
 def top5_mediations_organizations(request):
     cursor = connection.cursor()
@@ -112,9 +179,6 @@ def top5_mediations_organizations(request):
         ORDER BY num_intermed DESC LIMIT 5;
         """
     )
-<<<<<<< HEAD
-    return HttpResponse(records)
-=======
     
     x = []
 
@@ -122,7 +186,6 @@ def top5_mediations_organizations(request):
         x.append({'organização': i[0], 'intermediação': i[1]})
 
     return JsonResponse(x,safe=False)
->>>>>>> c6d829da7e6a0e35943efb271b2a9b6ccc431873
 
 def top5_largest_armed_groups(request):
     # v. Listar os 5 maiores grupos armados com maior número de armas fornecidos.
@@ -137,16 +200,12 @@ def top5_largest_armed_groups(request):
         """
     )
 
-<<<<<<< HEAD
-    return HttpResponse(records)
-=======
     x = []
 
     for i in cursor:
         x.append({'grupo': i[0], 'armas': i[1]})
 
     return JsonResponse(x,safe=False)
->>>>>>> c6d829da7e6a0e35943efb271b2a9b6ccc431873
 
 def countries_by_religious_conflicts(request):
     # vi. Listar o país e número de conflitos com maior número de conflitos religiosos.
