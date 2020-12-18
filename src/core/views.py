@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from . import models
+from . import forms
+
 from django.http import JsonResponse
 from django.db import connection
 from django.core import serializers
@@ -98,6 +100,18 @@ def populate(request):
     ''')
     
     return HttpResponse("O BD foi populado!")
+
+
+         
+def conflict_form(request):
+    form = forms.ConflictForm(request.POST)
+    if form.is_valid():
+        pass
+
+    return render(request, 'core/static/template/index.html', {'form': form})
+
+
+# Create your views here.
 def list_conflicts(request):
     cursor = connection.cursor()
     cursor.execute('''select tipo, count(distinct codigo) as quantidade
@@ -109,6 +123,7 @@ def list_conflicts(request):
 
     records = cursor.fetchall()
 
+    return render(records)
     import matplotlib.pyplot as plt
 
     x = []
@@ -144,6 +159,7 @@ def dealers_and_armed_groups(request):
     for i in cursor:
         x.append({'traficate': i[0], 'grupo': i[1], 'arma': i[2]})
 
+    return HttpResponse(records)
     return JsonResponse(x,safe=False)
 
 def drop_schema(request):
@@ -164,6 +180,7 @@ def top5_deads_conficts(request):
         """
     )
 
+    return HttpResponse(records)
     x = []
 
     for i in cursor:
@@ -182,6 +199,7 @@ def top5_mediations_organizations(request):
         ORDER BY num_intermed DESC LIMIT 5;
         """
     )
+    return HttpResponse(records)
     
     x = []
 
@@ -203,6 +221,7 @@ def top5_largest_armed_groups(request):
         """
     )
 
+    return HttpResponse(records)
     x = []
 
     for i in cursor:
@@ -638,3 +657,5 @@ FOR EACH ROW EXECUTE PROCEDURE id_divisoes();
         """
     )
     return HttpResponse("O banco de dados foi criado!")
+
+    return HttpResponse(records)
