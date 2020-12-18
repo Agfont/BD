@@ -199,7 +199,7 @@ CREATE TRIGGER conflito_economico BEFORE INSERT OR UPDATE on "ConfEcon"
 FOR EACH ROW EXECUTE PROCEDURE exclusividade_confEcon();
 
 -- Territorial
-CREATE OR REPLACE FUNCTION exclusividade_confTerritorial() RETURN TRIGGER AS $territorial$
+CREATE OR REPLACE FUNCTION exclusividade_confTerritorial() RETURNS TRIGGER AS $territorial$
 BEGIN
     IF EXISTS(SELECT conflito_id FROM "ConfRelig"
             WHERE conflito_id = NEW.conflito_id) THEN
@@ -216,11 +216,11 @@ END;
 $territorial$
 LANGUAGE plpgsql;
 
-CREATE TRIGGER conflito_economico BEFORE INSERT OR UPDATE on "ConfRegiao"
+CREATE TRIGGER conflito_territorial BEFORE INSERT OR UPDATE on "ConfRegiao"
 FOR EACH ROW EXECUTE PROCEDURE exclusividade_confTerritorial();
 
 -- Étnico
-CREATE OR REPLACE FUNCTION exclusividade_confEtnico() RETURN TRIGGER AS $etnico$
+CREATE OR REPLACE FUNCTION exclusividade_confEtnico() RETURNS TRIGGER AS $etnico$
 BEGIN
     IF EXISTS(SELECT conflito_id FROM "ConfRelig"
             WHERE conflito_id = NEW.conflito_id) THEN
@@ -237,7 +237,7 @@ END;
 $etnico$
 LANGUAGE plpgsql;
 
-CREATE TRIGGER conflito_economico BEFORE INSERT OR UPDATE on "ConfRegiao"
+CREATE TRIGGER conflito_etnico BEFORE INSERT OR UPDATE on "ConfRegiao"
 FOR EACH ROW EXECUTE PROCEDURE exclusividade_confEtnico();
 
 -- 1.b)
@@ -377,7 +377,7 @@ FOR EACH ROW EXECUTE PROCEDURE num_baixas();
 CREATE OR REPLACE FUNCTION id_divisoes() returns trigger AS $idDiv$
 DECLARE id int;
 BEGIN
-|   id := (SELECT MAX(divisao_id)
+   id := (SELECT MAX(divisao_id)
         FROM divisoes
         WHERE codigo_grupo = NEW.codigo_grupo
         GROUP BY divisao_id, codigo_grupo);

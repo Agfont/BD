@@ -11,4 +11,6 @@ urlpatterns = [
     path('v/', views.top5_largest_armed_groups),
     path('vi/', views.countries_by_religious_conflicts),
     path('create-db', views.create_db),
+    path('drop-schema', views.drop_schema),
+    path('populate', views.populate)
 ]
