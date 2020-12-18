@@ -6,9 +6,8 @@ from . import forms
 from django.http import JsonResponse
 from django.db import connection
 from django.core import serializers
-# from matplotlib import pyplot as plt
-# from pandas import pandas as pd
-import json
+from matplotlib import pyplot as plt
+from pandas import pandas as pd
 
 # Create your views here.
 def populate(request):
@@ -189,6 +188,22 @@ def dealer_form(request):
     return render(request, 'core/static/template/index.html', {'form': form})
 
 
+
+def submit_form(request):
+    x = []
+
+    for i in request.POST.values():
+        x.append(i)
+
+    
+    cursor = connection.cursor()
+    cursor.execute(
+        "INSERT INTO public.conflitos (codigo, nome, tipo, num_feridos, num_mortos) VALUES (%i, %s, %s, %i, %i);"
+        %(int(x[1]),x[2],x[3],int(x[4]),int(x[5]))
+        )
+
+    return HttpResponse("Conflito inserido")
+
 # Create your views here.
 def list_conflicts(request):
     cursor = connection.cursor()
@@ -326,7 +341,7 @@ def countries_by_religious_conflicts(request):
     return JsonResponse(x,safe=False)
 
 def test(request):
-    return JsonResponse({'log': 'We are online!'})
+    return render(request,'core/static/template/home.html')
 
 def addMilitaryChief(request):
     return HttpResponse('ok')
@@ -735,4 +750,4 @@ FOR EACH ROW EXECUTE PROCEDURE id_divisoes();
     )
     return HttpResponse("O banco de dados foi criado!")
 
-    return HttpResponse(records)
+    # return HttpResponse(records)
