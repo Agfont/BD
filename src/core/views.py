@@ -9,6 +9,7 @@ from django.core import serializers
 from matplotlib import pyplot as plt
 from pandas import pandas as pd
 
+
 # Create your views here.
 def populate(request):
     cursor = connection.cursor()
@@ -213,16 +214,12 @@ def list_conflicts(request):
     order by tipo asc
     ''')
 
-    # return HttpResponse(records)
-    # # # return render(records)
-
-    records = cursor.fetchall()
-    import matplotlib.pyplot as plt
-
-    # return render(records)
-    import matplotlib.pyplot as plt
 
     x = []
+
+    for i in cursor:
+        for j in range(i[1]):
+            x.append(i[0])
 
     plt.hist(x, bins = 10)
     plt.savefig('histogram.png')
