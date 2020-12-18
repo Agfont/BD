@@ -4,74 +4,102 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Home</title>
+		<!-- Latest compiled and minified CSS -->
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+			integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+			crossorigin="anonymous"
+		/>
+
+		<!-- Optional theme -->
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+			integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ"
+			crossorigin="anonymous"
+		/>
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+			integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+			crossorigin="anonymous"
+		></script>
 	</head>
 	<body>
-        <h1>Trabalho de Banco de Dados</h1>
-        <h2>Controle do banco de dados</h2>
-        <ul>
-            <li>
-                <a href="/drop-schema">Descarta esquema e cria novamente</a>
-            </li>
-            <li>
-                <a href="/create-db">Cria tabelas e triggers</a>
-            </li>
-            <li>
-                <a href="/populate">Popula tabelas</a>
-            </li>
-        </ul>
-        <h2>Exercicio 1</h2>
-        <h2>Exercicio 2</h2>
-        <h3>A</h3>
-        <ul>
-            <li>
-                <a href="/2/conflict_form/">Criar um novo conflito</a>
-            </li>
-            <li>
-                <a href="/2/military_chief_form/">Criar um novo chefe militar</a>
-            </li>
-            <li>
-                <a href="/2/political_leader_form/">Criar um novo lider politico</a>
-            </li>
-            <li>
-                <a href="/2/armed_group_form/">Criar um novo grupo armado</a>
-            </li>
-            <li>
-                <a href="/2/division_form/">Criar uma nova divisão</a>
-            </li>
-            <li>
-                <a href="/2/weapon_form/">Criar uma nova arma</a>
-            </li>
-
-            <li>
-                <a href="/2/dealer_form/">Criar um novo traficante</a>
-            </li>
-
-        </ul>
-        <h3>B</h3>
+		<nav class="navbar navbar-light bg-primary">
+			<a class="navbar-brand" href="#">Banco de dados</a>
+		</nav>
+		<h2>Controle do banco de dados</h2>
 		<ul>
 			<li>
-                <a href="/i">Gráfico, histograma, por tipo de conflito e número de conflitos</a>
-                
+				<a class="btn btn-primary btn-lg" href="/drop-schema"
+					>Descarta esquema e cria novamente</a
+				>
 			</li>
 			<li>
-                <a href="/ii">Traficantes e os grupos armados para os quais os traficantes fornecem armas “Barret M82” ou “M200 intervention”</a>
-                
+				<a class="btn btn-primary btn-lg" href="/create-db"
+					>Cria tabelas e triggers</a
+				>
 			</li>
 			<li>
-                <a href="/iii">5 maiores conflitos em número de mortos</a>
-                
+				<a class="btn btn-primary btn-lg" href="/populate">Popula tabelas</a>
+			</li>
+		</ul>
+		<h2>Exercicio 1</h2>
+		<h2>Exercicio 2</h2>
+		<h3>A</h3>
+		<ul>
+			<li>
+				<a href="/2/conflict_form/">Criar um novo conflito</a>
 			</li>
 			<li>
-                <a href="/iv">5 maiores organizações em número de mediações</a>
-                
+				<a href="/2/military_chief_form/">Criar um novo chefe militar</a>
 			</li>
 			<li>
-                <a href="/v">5 maiores grupos armados com maior número de armas fornecidos</a>
-                
+				<a href="/2/political_leader_form/">Criar um novo lider politico</a>
 			</li>
 			<li>
-                <a href="/vi">País com maior número de conflitos territoriais</a>
-                
+				<a href="/2/armed_group_form/">Criar um novo grupo armado</a>
+			</li>
+			<li>
+				<a href="/2/division_form/">Criar uma nova divisão</a>
+			</li>
+			<li>
+				<a href="/2/weapon_form/">Criar uma nova arma</a>
+			</li>
+
+			<li>
+				<a href="/2/dealer_form/">Criar um novo traficante</a>
+			</li>
+		</ul>
+		<h3>B</h3>
+		<ul>
+			<li>
+				<a href="/i"
+					>Gráfico, histograma, por tipo de conflito e número de conflitos</a
+				>
+			</li>
+			<li>
+				<a href="/ii"
+					>Traficantes e os grupos armados para os quais os traficantes fornecem
+					armas “Barret M82” ou “M200 intervention”</a
+				>
+			</li>
+			<li>
+				<a href="/iii">5 maiores conflitos em número de mortos</a>
+			</li>
+			<li>
+				<a href="/iv">5 maiores organizações em número de mediações</a>
+			</li>
+			<li>
+				<a href="/v"
+					>5 maiores grupos armados com maior número de armas fornecidos</a
+				>
+			</li>
+			<li>
+				<a href="/vi">País com maior número de conflitos territoriais</a>
 			</li>
 		</ul>
 	</body>
