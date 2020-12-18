@@ -1,36 +1,35 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modelo de Exercício</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <h1>Titulo</h1>
-    </header>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Modelo de Exercício</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header>
+			<h1>
+				<a href="/">Home</a>
+			</h1>
+		</header>
 
-    <section>
-        <form action="/submit/conflict/" method="post" novalidate>
-        {% csrf_token %}
-            <table border="1">
-                {{ form }}
-            </table>
-        <button type="submit">Submit</button>
-        </form>
+		<section>
+			<form method="post" novalidate>
+				{% csrf_token %}
+				<table border="1">
+					{{ form }}
+				</table>
+				<button type="submit">Submit</button>
+			</form>
 
-        <div>
+			<div></div>
+		</section>
 
-        </div>
-    </section>
+		<footer>
+			<p>&copy; Banco de Dados ACH2004 - 2/SEM - 2020</p>
+		</footer>
 
-
-    <footer>
-        <p>&copy; Banco de Dados ACH2004 - 2/SEM - 2020</p>
-    </footer>
-    
-    <script src="script.js"></script>
-</body>
+		<script src="script.js"></script>
+	</body>
 </html>
