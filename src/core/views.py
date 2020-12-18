@@ -228,10 +228,11 @@ def list_conflicts(request):
         with open('histogram.png', "rb") as f:
             return HttpResponse(f.read(), content_type="image/png")
     except IOError:
-        red = Image.new('RGBA', (1, 1), (255,0,0,0))
-        response = HttpResponse(content_type="image/png")
-        red.save(response, "JPEG")
-        return response
+        pass
+        # red = Image.new('RGBA', (1, 1), (255,0,0,0))
+        # response = HttpResponse(content_type="image/png")
+        # red.save(response, "JPEG")
+        # return response
 
 
 def dealers_and_armed_groups(request):
@@ -338,7 +339,7 @@ def countries_by_religious_conflicts(request):
     return JsonResponse(x,safe=False)
 
 def test(request):
-    return render(request,'core/static/template/home.html')
+    return JsonResponse({'log': 'We are online!'})
 
 def addMilitaryChief(request):
     return HttpResponse('ok')
