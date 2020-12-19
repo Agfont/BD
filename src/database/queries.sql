@@ -23,7 +23,8 @@ SELECT nome_org, COUNT(*) as num_intermed
 FROM organizacoes_m
 JOIN "EntraMed" ON organizacoes_m.codigo_org = "EntraMed".codigo_org
 GROUP BY "EntraMed".codigo_org, organizacoes_m.codigo_org
-ORDER BY num_intermed DESC LIMIT 5;
+ORDER BY num_intermed 
+DESC LIMIT 5;
 
 
 
@@ -39,4 +40,5 @@ ORDER BY total DESC LIMIT 5;
 SELECT regiao, COUNT(conflito_id) as conflitos
 FROM "ConfRegiao"
 GROUP BY regiao
-ORDER BY conflitos DESC limit 1;
+ORDER BY conflitos 
+DESC limit 1;

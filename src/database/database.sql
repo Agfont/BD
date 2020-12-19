@@ -155,7 +155,20 @@ CREATE TABLE "ConfEtnia" (
   FOREIGN KEY ("conflito_id") REFERENCES "conflitos" ("codigo")
 );
 
+
+
+
+
+
+
+
+
+
+
+
+
 -- 1.a)
+
 -- Religioso
 CREATE OR REPLACE FUNCTION exclusividade_confRelig() RETURNS TRIGGER AS $relig$
 BEGIN
@@ -240,9 +253,29 @@ LANGUAGE plpgsql;
 CREATE TRIGGER conflito_etnico BEFORE INSERT OR UPDATE on "ConfRegiao"
 FOR EACH ROW EXECUTE PROCEDURE exclusividade_confEtnico();
 
+
+
+
+
+
+
+
+
+
 -- 1.b)
 -- Tabela chefes_militares: "id_lider" int NOT NULL
 -- Também criamos uma tabela adicional caso um chefe tenha mais de um líder
+
+
+
+
+
+
+
+
+
+
+
 
 -- 1.c)
 CREATE OR REPLACE FUNCTION divisao_min_1_chefe() returns trigger AS $divisaoMin1$
@@ -265,6 +298,20 @@ LANGUAGE plpgsql;
 CREATE TRIGGER minimo_chefes BEFORE DELETE OR UPDATE ON chefes_militares
 FOR EACH ROW EXECUTE PROCEDURE divisao_min_1_chefe();
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- 1.d)
 CREATE OR REPLACE FUNCTION divisao_max_3_chefes() returns trigger AS $divisaoMax3$
 BEGIN
@@ -285,6 +332,15 @@ LANGUAGE plpgsql;
 
 CREATE TRIGGER maximo_chefes BEFORE INSERT OR UPDATE ON chefes_militares
 FOR EACH ROW EXECUTE PROCEDURE divisao_max_3_chefes();
+
+
+
+
+
+
+
+
+
 
 -- 1.e)
 CREATE OR REPLACE FUNCTION grupo_min_1_div() returns trigger AS $grupoMinDiv$
@@ -311,6 +367,18 @@ FOR EACH ROW EXECUTE PROCEDURE grupo_min_1_div();
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 -- 1.f)
 CREATE OR REPLACE FUNCTION conflito_min_2_grupos() returns trigger AS $conflito2Grupos$
 DECLARE grupos_part int;
@@ -329,6 +397,22 @@ LANGUAGE plpgsql;
 CREATE TRIGGER conflito_2_grupos BEFORE DELETE ON "EntPart"
 FOR EACH ROW EXECUTE PROCEDURE conflito_min_2_grupos();
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- 1.g)
 CREATE OR REPLACE FUNCTION conflito_min_1_pais() returns trigger AS $conflito1Pais$
 BEGIN
@@ -344,6 +428,21 @@ LANGUAGE plpgsql;
 
 CREATE TRIGGER conflito_paises BEFORE DELETE OR UPDATE ON "ConfRegiao"
 FOR EACH ROW EXECUTE PROCEDURE conflito_min_1_pais();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 -- 1.h
 CREATE OR REPLACE FUNCTION num_baixas() returns trigger AS $novasBaixas$
@@ -372,6 +471,23 @@ LANGUAGE plpgsql;
 
 CREATE TRIGGER atualizar_baixas AFTER INSERT OR DELETE OR UPDATE ON divisoes
 FOR EACH ROW EXECUTE PROCEDURE num_baixas();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 --1.h - Parte 2)
 CREATE OR REPLACE FUNCTION id_divisoes() returns trigger AS $idDiv$
