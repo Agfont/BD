@@ -8,7 +8,7 @@
 ## Como rodar a aplicação
 
 1. Abra o diretorio raiz
-2. Adicione arquvivo .env
+2. Adicione arquivo .env
 3. Execute no terminal o comando `docker-compose up --build`
 4. Aguarde o processo de configuração do container
 5. Abra o navegador no link http://localhost:8090
